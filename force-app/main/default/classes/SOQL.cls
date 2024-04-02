@@ -118,9 +118,26 @@ public with sharing class SOQL {
      * @return A map of Task Ids to Task records.
      * Update the corresponding test class and testGetTasksDueNextWeek method to cover this method
      */
-    //[public | private ] [static] data_type method_name (input parameters) {
+    public static Map<Id, Task> getTaskDueNextWeek() {
+
+        Map<Id,Task> taskMap = new Map<Id, Task>();
+        
+        List<Task> taskDueDate = [SELECT Id, ActivityDate FROM Task WHERE ActivityDate = NEXT_N_DAYS:7];
+        System.debug(taskDueDate);
+
     //  The body of the method
-    //}
+        for(Task task : taskDueDate) {
+            if(taskDueDate.size() == 0) {
+                continue;
+            }else {
+                System.debug(task);
+                taskMap.put(task.ID, task);
+            }
+
+        }
+
+        return taskMap;
+    }
 
     /**
      * Question 7
