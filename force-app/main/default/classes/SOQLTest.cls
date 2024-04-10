@@ -161,7 +161,7 @@ public with sharing class SOQLTest {
         insert new List<Contact>{testContact1, testContact2, testContact3};
 
         // Call the method to test
-        List<Contact> contacts = null; //Replace null with your method call from SOQL class
+        List<Contact> contacts = SOQL.getContactsByEmail(); //Replace null with your method call from SOQL class
 
         // Assert that the number of contacts returned is correct
         System.assertEquals(2, contacts.size(), 'Number of contacts returned is incorrect.');
@@ -249,7 +249,7 @@ public with sharing class SOQLTest {
         insert new List<Lead>{testLead1, testLead2, testLead3, testLead4};
 
         // Call the method to test
-        List<Lead> leads = null; //Replace null with your method passing 'Web', 'Engineer' 
+        List<Lead> leads = SOQL.getLeadsBySourceOrTitle('Web', 'Engineer'); //Replace null with your method passing 'Web', 'Engineer' 
 
         // Assert that the number of leads returned is correct
         System.assertEquals(3, leads.size(), 'Number of leads returned is incorrect.');
@@ -742,12 +742,12 @@ public with sharing class SOQLTest {
         SOQL.setPrimaryContact();
 
         // Query for the updated Opportunity
-        Opportunity updatedOpp = [SELECT Id FROM Opportunity WHERE Id = :testOpp1.Id];
-        //Opportunity updatedOpp = [SELECT Id, Primary_Contact__c FROM Opportunity WHERE Id = :testOpp1.Id]; Add Primary Contact back in to the query...
+        
+        Opportunity updatedOpp = [SELECT Id, Primary_Contact__c FROM Opportunity WHERE Id = :testOpp1.Id];
 
         // Assert that the Primary Contact was set correctly
-        System.assertEquals(testContact2.Id, 'Primary Contact was not set correctly.');
-        //System.assertEquals(testContact2.Id, updatedOpp.Primary_Contact__c, 'Primary Contact was not set correctly.'); Add Primary Contact back in to the query...
+       
+        System.assertEquals(testContact2.Id, updatedOpp.Primary_Contact__c, 'Primary Contact was not set correctly.');
     }
 
 
