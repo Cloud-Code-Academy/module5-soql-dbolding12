@@ -535,12 +535,13 @@ public with sharing class SOQL {
         
 
         // Query the Contacts
+        List<Contact> contacts = [SELECT Id , FirstName, LastName, AccountId FROM Contact WHERE AccountId IN :oppAccountId];
         // Loop through each Contact and add the Account Id and Contact to the map
-        Map<Id, Contact> accountToContactMap = new Map<Id, Contact>([            
-            SELECT Id, AccountId
-            FROM Contact 
-            WHERE AccountId IN :oppAccountId]
-        );
+        Map<Id, Contact> accountToContactMap = new Map<Id, Contact>();
+        for (Contact con : contacts){
+            accountToContactMap.put(con.AccountId, con);
+        }
+       
                
         
         // Loop through each Opportunity
