@@ -466,10 +466,11 @@ public with sharing class SOQL {
      */
     public static void cloneLineItems(Id origOppId, List<Id> cloneOppIds) {
         // Query the original Opportunity Line Items
-        List<OpportunityLineItem> ogLineItems = [SELECT Id, OpportunityId, Product2Id, Quantity
+        List<OpportunityLineItem> ogLineItems = [SELECT Id, OpportunityId, Product2Id, Quantity, UnitPrice, PricebookEntryId
                                                 FROM OpportunityLineItem
                                                 WHERE OpportunityId = :origOppId ];
 
+       
         // Create a list to hold the new line items
         List<OpportunityLineItem> newLineItems = new List<OpportunityLineItem>();
 
@@ -483,6 +484,9 @@ public with sharing class SOQL {
                 OpportunityLineItem newItem = ogLineItem.clone();
                 newItem.OpportunityId = cloneOppId;
                 newItem.Quantity = randomNumber;
+                newItem.PricebookEntryId = ogLineItem.PricebookEntryId;
+                newItem.Product2Id = ogLineItem.product2Id;
+                newItem.UnitPrice = ogLineItem.UnitPrice;
                 newLineItems.add(newItem);
 
                  // Clone the original line item and add the random number to the quantity
